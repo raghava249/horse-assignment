@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assign Horses to Riders</title>
+</head>
+<body>
+    <button onclick="assign()">Assign Horses to Riders</button>
+    <div id="result"></div>
+
+    <script>
+        async function assign() {
+            const response = await fetch('http://localhost:3000/assign', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            });
+
+            const assignments = await response.json();
+            displayAssignments(assignments);
+        }
+
+        function displayAssignments(assignments) {
+            const table = document.createElement('table');
+            assignments.forEach(assignment => {
+                const row = table.insertRow();
+                const riderCell = row.insertCell();
+                const horseCell = row.insertCell();
+                riderCell.textContent = assignment.rider;
+                horseCell.textContent = assignment.horse;
+            });
+
+            document.getElementById('result').innerHTML = '';
+            document.getElementById('result').appendChild(table);
+        }
+    </script>
+</body>
+</html>
